@@ -35,6 +35,10 @@ class B {
 }
 
 class C {
+  /**
+   * @param {number} a 
+   * @returns {number}
+   */
   test(a) {
     return a + 1;
   }
@@ -47,6 +51,10 @@ class D {
 }
 
 class E {
+  /**
+   * @param {number} a 
+   * @returns {number}
+   */
   test(a) {
     return a + 31;
   }
