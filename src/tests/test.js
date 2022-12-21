@@ -9,11 +9,11 @@ class A {
     this.c = c;
   }
 
-  test() {
+  test(value) {
     const resultB = this.b.test();
     const resultC = this.c.test(resultB);
 
-    return resultC;
+    return value + resultC;
   }
 }
 
@@ -36,11 +36,11 @@ class B {
 
 class C {
   /**
-   * @param {number} a 
+   * @param {number} value
    * @returns {number}
    */
-  test(a) {
-    return a + 1;
+  test(value) {
+    return value + 1;
   }
 }
 
@@ -52,11 +52,11 @@ class D {
 
 class E {
   /**
-   * @param {number} a 
+   * @param {number} value
    * @returns {number}
    */
-  test(a) {
-    return a + 31;
+  test(value) {
+    return value + 30;
   }
 }
 
@@ -96,7 +96,7 @@ const dependencies = {
 const dIContainer = new DIContainer(dependencies);
 
 const a = dIContainer.get('A');
-const result = a.test();
+const result = a.test(1);
 
 const OK = 'OK';
 const FAIL = 'FAIL';
