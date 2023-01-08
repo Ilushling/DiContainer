@@ -1,4 +1,4 @@
-import { DIContainer } from '../DIContainer.js';
+import { DIContainer } from '../src/DIContainer.js';
 
 class A {
   b;
