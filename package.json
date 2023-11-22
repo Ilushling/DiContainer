@@ -5,9 +5,13 @@
   "license": "MIT",
   "author": "Ilushling",
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "test": "node --test"
+  },
+  "keywords": ["dependency", "injection", "container", "di", "dic"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ilushling/DiContainer"
   },
   "devDependencies": {
     "@types/node": "^20.9.4"
