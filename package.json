@@ -1,0 +1,15 @@
+{
+  "name": "di-container",
+  "version": "1.0.0",
+  "description": "Pure js di container",
+  "license": "MIT",
+  "author": "Ilushling",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.4"
+  }
+}

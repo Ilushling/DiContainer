@@ -1,30 +1,78 @@
-export class DIContainer {
-  dependencies;
-  instances;
+/**
+ * @template T
+ * @typedef {T extends (...args: any) => infer R ? R : unknown} GetReturnType
+ */
 
+/**
+ * @template F, T
+ * @typedef {(container: DiContainer<T>) => GetReturnType<F>} Dependency
+ */
+/**
+ * @template T
+ * @typedef {{ [P in keyof T]: Dependency<T[P], T> }} Dependencies
+ */
+
+/**
+ * @template T
+ * @typedef {GetReturnType<T>} Instance
+ */
+/**
+ * @template T
+ * @typedef {{ [P in keyof T]: Instance<T[P]> }} Instances
+ */
+
+/**
+ * @template T
+ */
+export default class DiContainer {
+  #dependencies;
+  #instances;
+
+  /** @param {Dependencies<T>} dependencies */
   constructor(dependencies) {
-    this.dependencies = dependencies;
-    this.instances = {};
+    this.#dependencies = dependencies;
+
+    const instances = /** @type {Instances<T>} */ ({});
+
+    this.#instances = instances;
+  }
+
+  getDependencies() {
+    return this.#dependencies;
   }
 
   /**
-   * @param {string} key
-   * @returns {boolean}
+   * @template {keyof T} K
+   * @param {K} key
    */
   has(key) {
-    return key in this.dependencies;
+    return key in this.#dependencies;
   }
 
   /**
-   * @param {string} key
-   * @returns {object}
+   * @template {keyof T} K
+   * @param {K} key
+   * @returns {Instances<T>[K]}
+   * @throws {Error}
    */
   get(key) {
-    if ((key in this.instances) === false) {
-      const instance = this.dependencies[key](this);
-      this.instances[key] = instance;
+    const dependencies = this.#dependencies;
+    if (!(key in dependencies)) {
+      throw new Error(`No ${key.toString()} dependency`);
     }
 
-    return this.instances[key];
+    const dependency = dependencies[key];
+    if (typeof dependency !== 'function') {
+      throw new Error(`${key.toString()} must be a function`);
+    }
+
+    const instances = this.#instances;
+    if (!(key in instances)) {
+      const instance = dependency(this);
+
+      instances[key] = instance;
+    }
+
+    return instances[key];
   }
 }
