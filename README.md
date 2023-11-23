@@ -1,2 +1,2 @@
 # DiContainer
-Pure JS Dependency Injection Container.
+Pure Dependency Injection Container
