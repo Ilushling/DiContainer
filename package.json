@@ -1,17 +1,24 @@
 {
-  "name": "di-container",
+  "name": "puredic",
   "version": "1.0.0",
-  "description": "Pure js di container",
+  "description": "JS pure di container",
   "license": "MIT",
   "author": "Ilushling",
   "type": "module",
   "scripts": {
     "test": "node --test"
   },
-  "keywords": ["dependency", "injection", "container", "di", "dic"],
+  "keywords": [
+    "dependency",
+    "injection",
+    "container",
+    "di",
+    "dic",
+    "pure"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ilushling/DiContainer"
+    "url": "git+https://github.com/Ilushling/DiContainer.git"
   },
   "devDependencies": {
     "@types/node": "^20.9.4"
