@@ -8,10 +8,10 @@
  */
 
 /**
- * @typedef {{
+ * @typedef {Dependencies<{
  *   linked: () => number
- * }} moduleDependencies
- * @type {Dependencies<moduleDependencies>}
+ * }>} ModuleDependencies
+ * @type {ModuleDependencies}
  */
 export default {
   linked() {

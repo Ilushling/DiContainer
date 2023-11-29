@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import { describe, it } from 'node:test';
 
 import DiContainer from '../src/DiContainer.js';
-import module from './module.js';
+import moduleDependencies from './module.js';
 
 /**
  * @template T
@@ -10,19 +10,22 @@ import module from './module.js';
  */
 
 /**
- * @typedef {import('./module.js').moduleDependencies} moduleDependencies
+ * @typedef {import('./module.js').ModuleDependencies} ModuleDependencies
  */
 
 /**
- * @typedef {moduleDependencies & {
+ * @typedef {ModuleDependencies
+ * & Dependencies<{
  *   a: () => number,
- *   b: (container: DiContainer<aDependencies>) => number,
- *   c: (container: DiContainer<aDependencies>) => number
- * }} aDependencies
- * @type {Dependencies<aDependencies>}
+ *   b: (container: Container) => number,
+ *   c: (container: Container) => number
+ * }>} ContainerDependencies
+ * @typedef {DiContainer<ContainerDependencies>} Container
+ * @type {ContainerDependencies}
  */
 const dependencies = {
-  ...module,
+  ...moduleDependencies,
+
   a() {
     return 1;
   },

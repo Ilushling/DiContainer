@@ -1,11 +1,15 @@
 /**
  * @template T
+ * @typedef {T extends (arg: infer R) => any ? R : unknown} GetArgType
+ */
+/**
+ * @template T
  * @typedef {T extends (...args: any) => infer R ? R : unknown} GetReturnType
  */
 
 /**
  * @template F, T
- * @typedef {(container: DiContainer<T>) => GetReturnType<F>} Dependency
+ * @typedef {(container: GetArgType<F>) => GetReturnType<F>} Dependency
  */
 /**
  * @template T
@@ -52,23 +56,28 @@ export default class DiContainer {
   /**
    * @template {keyof T} K
    * @param {K} key
-   * @returns {Instances<T>[K]}
-   * @throws {Error}
+   * @throws {DependencyNotFoundError|DependencyNotFunctionError}
    */
   get(key) {
     const dependencies = this.#dependencies;
     if (!(key in dependencies)) {
-      throw new Error(`No ${key.toString()} dependency`);
+      throw Object.assign(new Error(`${key.toString()} dependency not found`), {
+        name: 'DependencyNotFoundError'
+      });
     }
 
-    const dependency = dependencies[key];
+    const dependency = dependencies[key]?.bind(dependencies);
     if (typeof dependency !== 'function') {
-      throw new Error(`${key.toString()} must be a function`);
+      throw Object.assign(new Error(`${key.toString()} must be a function`), {
+        name: 'DependencyNotFunctionError'
+      });
     }
 
     const instances = this.#instances;
     if (!(key in instances)) {
-      const instance = dependency(this);
+      const container = /** @type {GetArgType<T[K]>} */ (this);
+
+      const instance = dependency(container);
 
       instances[key] = instance;
     }
