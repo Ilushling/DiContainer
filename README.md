@@ -1,2 +1,2 @@
 # DiContainer
-Pure Dependency Injection Container
+Dependency Injection Container
