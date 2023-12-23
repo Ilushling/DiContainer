@@ -1,6 +1,6 @@
 {
   "name": "puredic",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Dependency Injection Container",
   "type": "module",
   "author": "Ilushling",
