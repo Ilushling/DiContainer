@@ -5,6 +5,7 @@
   "type": "module",
   "author": "Ilushling",
   "license": "MIT",
+  "main": "./src/DiContainer.js",
   "scripts": {
     "test": "node --test"
   },
@@ -24,6 +25,6 @@
   },
   "homepage": "https://github.com/Ilushling/DiContainer#readme",
   "devDependencies": {
-    "@types/node": "^20.10.4"
+    "@types/node": "^20.10.5"
   }
 }
