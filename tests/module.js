@@ -1,15 +1,20 @@
 /**
- * @template T
- * @typedef {import('../src/DiContainer.js').default<T>} DiContainer
+ * @typedef {import('./container.test.js').Container} Container
  */
+
 /**
  * @template T
- * @typedef {import('../src/DiContainer.js').Dependencies<T>} Dependencies
+ * @typedef {import('./container.test.js').Dependencies<T>} Dependencies
+ */
+
+/**
+ * @template T
+ * @typedef {import('./container.test.js').Dependency<T>} Dependency
  */
 
 /**
  * @typedef {Dependencies<{
- *   linked: () => number
+ *   linked: Dependency<number>
  * }>} ModuleDependencies
  * @type {ModuleDependencies}
  */

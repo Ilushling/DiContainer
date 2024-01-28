@@ -10,15 +10,20 @@ import moduleDependencies from './module.js';
  */
 
 /**
+ * @template T
+ * @typedef {(container: Container) => T} Dependency
+ */
+
+/**
  * @typedef {import('./module.js').ModuleDependencies} ModuleDependencies
  */
 
 /**
  * @typedef {ModuleDependencies
  * & Dependencies<{
- *   a: () => number,
- *   b: (container: Container) => number,
- *   c: (container: Container) => number
+ *   a: Dependency<number>,
+ *   b: Dependency<number>,
+ *   c: Dependency<number>
  * }>} ContainerDependencies
  * @typedef {DiContainer<ContainerDependencies>} Container
  * @type {ContainerDependencies}
@@ -47,22 +52,14 @@ const container = new DiContainer(dependencies);
 describe('container', () => {
   const a = container.get('a');
 
-  it('get simple', () => {
-    assert.strictEqual(a, 1);
-  });
+  it('get simple', () => assert.strictEqual(a, 1));
 
   const b = container.get('b');
-  it('get inner', () => {
-    assert.strictEqual(b, a);
-  });
+  it('get inner', () => assert.strictEqual(b, a));
 
   const linked = container.get('linked');
-  it('get linked dependency', () => {
-    assert.strictEqual(linked, 2);
-  });
+  it('get linked dependency', () => assert.strictEqual(linked, 2));
 
   const c = container.get('c');
-  it('get complex', () => {
-    assert.strictEqual(b + linked, c);
-  });
+  it('get complex', () => assert.strictEqual(b + linked, c));
 });

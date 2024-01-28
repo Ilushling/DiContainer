@@ -1,19 +1,19 @@
 /**
  * @template T
- * @typedef {T extends (arg: infer R) => any ? R : unknown} GetArgType
+ * @typedef {T extends (arg: infer R) => any ? R : any} GetArgType
  */
 /**
  * @template T
- * @typedef {T extends (...args: any) => infer R ? R : unknown} GetReturnType
+ * @typedef {T extends (...args: any) => infer R ? R : any} GetReturnType
  */
 
 /**
- * @template F, T
+ * @template F
  * @typedef {(container: GetArgType<F>) => GetReturnType<F>} Dependency
  */
 /**
  * @template T
- * @typedef {{ [P in keyof T]: Dependency<T[P], T> }} Dependencies
+ * @typedef {{ [P in keyof T]: Dependency<T[P]> }} Dependencies
  */
 
 /**
@@ -27,9 +27,17 @@
 
 /**
  * @template T
+ * @typedef {new (params: T) => DiContainer<T>} DiContainerConstructable
+ */
+
+/**
+ * @template T
  */
 export default class DiContainer {
+  /** @type {Dependencies<T>} */
   #dependencies;
+
+  /** @type {Instances<T>} */
   #instances;
 
   /** @param {Dependencies<T>} dependencies */
@@ -46,17 +54,18 @@ export default class DiContainer {
   }
 
   /**
-   * @template {keyof T} K
+   * @template {string} K
    * @param {K} key
+   * @returns {K extends keyof T ? true : false}
    */
   has(key) {
+    // @ts-ignore
     return key in this.#dependencies;
   }
 
   /**
    * @template {keyof T} K
    * @param {K} key
-   * @throws {DependencyNotFoundError|DependencyNotFunctionError}
    */
   get(key) {
     const dependencies = this.#dependencies;
