@@ -6,6 +6,11 @@ import moduleDependencies from './module.js';
 
 /**
  * @template T
+ * @typedef {import('../src/IDiContainer.js').IDiContainer<T>} IDiContainer
+ */
+
+/**
+ * @template T
  * @typedef {import('../src/DiContainer.js').Dependencies<T>} Dependencies
  */
 
@@ -21,11 +26,11 @@ import moduleDependencies from './module.js';
 /**
  * @typedef {ModuleDependencies
  * & Dependencies<{
- *   a: Dependency<number>,
- *   b: Dependency<number>,
- *   c: Dependency<number>
+ *   a: Dependency<number>;
+ *   b: Dependency<number>;
+ *   c: Dependency<number>;
  * }>} ContainerDependencies
- * @typedef {DiContainer<ContainerDependencies>} Container
+ * @typedef {IDiContainer<ContainerDependencies>} Container
  * @type {ContainerDependencies}
  */
 const dependencies = {
@@ -47,6 +52,7 @@ const dependencies = {
   }
 };
 
+/** @type {Container} */
 const container = new DiContainer(dependencies);
 
 describe('container', () => {

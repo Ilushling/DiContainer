@@ -26,14 +26,19 @@
  */
 
 /**
- * @template T
- * @typedef {new (params: T) => DiContainer<T>} DiContainerConstructable
+ * @typedef {new <T>(params: T) => DiContainer<T>} DiContainerConstructable
  */
 
 /**
  * @template T
+ * 
+ * @implements {IDiContainer}
  */
 export default class DiContainer {
+  /**
+   * @typedef {import('./IDiContainer.js').IDiContainer<T>} IDiContainer
+   */
+
   /** @type {Dependencies<T>} */
   #dependencies;
 
@@ -53,39 +58,57 @@ export default class DiContainer {
     return this.#dependencies;
   }
 
-  /**
-   * @template {string} K
-   * @param {K} key
-   * @returns {K extends keyof T ? true : false}
-   */
+  /** @type {IDiContainer['has']} */
   has(key) {
-    // @ts-ignore
+    //@ts-ignore
     return key in this.#dependencies;
   }
 
-  /**
-   * @template {keyof T} K
-   * @param {K} key
-   */
+  /** @type {IDiContainer['get']} */
   get(key) {
     const dependencies = this.#dependencies;
     if (!(key in dependencies)) {
-      throw Object.assign(new Error(`${key.toString()} dependency not found`), {
-        name: 'DependencyNotFoundError'
-      });
+      throw Object.assign(
+        new Error(
+          `${key.toString()} dependency not found`,
+          {
+            cause: {
+              key
+            }
+          }
+        ),
+        {
+          name: 'DependencyNotFoundError'
+        }
+      );
     }
 
-    const dependency = dependencies[key]?.bind(dependencies);
+    let dependency = dependencies[key];
+
     if (typeof dependency !== 'function') {
-      throw Object.assign(new Error(`${key.toString()} must be a function`), {
+      throw Object.assign(new Error(
+        `${key.toString()} must be a function`,
+        {
+          cause: {
+            key
+          }
+        }
+      ), {
         name: 'DependencyNotFunctionError'
       });
     }
 
+    /**
+     * @typedef {T[typeof key]} D 
+     */
+
+    const container = /** @type {GetArgType<D>} */ (this);
+
+    /** @type {(container: GetArgType<D>) => Instances<T>[typeof key]} */
+    dependency = dependency.bind(dependencies);
+
     const instances = this.#instances;
     if (!(key in instances)) {
-      const container = /** @type {GetArgType<T[K]>} */ (this);
-
       const instance = dependency(container);
 
       instances[key] = instance;

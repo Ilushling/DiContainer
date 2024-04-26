@@ -1,24 +1,15 @@
-/**
- * @template T
- * @typedef {import('./DiContainer.js').default<T>} DiContainer
- */
-
-/**
- * @template T
- * @typedef {import('./DiContainer.js').Dependencies<T>} Dependencies
- */
-
-/**
- * @template T
- * @typedef {import('./DiContainer.js').DiContainerConstructable<T>} DiContainerConstructable
- */
-
-/**
- * @typedef {object} DiContainerFactoryParams
- * @property {DiContainerConstructable<any>} DiContainer
- */
 export default class DiContainerFactory {
-  /** @type {DiContainerFactoryParams['DiContainer']} */
+  /**
+   * @typedef {import('./IFactory.js').IDiContainerFactory} IDiContainerFactory
+   */
+
+  /**
+   * @typedef {import('./IFactory.js').DiContainerFactoryProperties} DiContainerFactoryProperties
+   * 
+   * @typedef {import('./IFactory.js').DiContainerFactoryParams} DiContainerFactoryParams
+   */
+
+  /** @type {DiContainerFactoryProperties['DiContainer']} */
   #DiContainer;
 
   /** @param {DiContainerFactoryParams} params */
@@ -26,11 +17,8 @@ export default class DiContainerFactory {
     this.#DiContainer = DiContainer;
   }
 
-  /**
-   * @template T
-   * @param {T} dependencies
-   */
+  /** @type {IDiContainerFactory['create']} */
   create(dependencies) {
-    return /** @type {DiContainer<T>} */ (new this.#DiContainer(dependencies));
+    return new this.#DiContainer(dependencies);
   }
 }
