@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/Ilushling/DiContainer#readme",
   "devDependencies": {
-    "@types/node": "^20.12.7"
+    "@types/node": "^22.0.2"
   }
 }

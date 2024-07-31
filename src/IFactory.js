@@ -1,21 +1,11 @@
 /**
  * @typedef {object} IDiContainerFactory
- * @property {<T>(dependencies: T) => IDiContainer<T>} create
- */
-  
-/**
- * @typedef {object} DiContainerFactoryProperties
- * @property {DiContainerConstructable} DiContainer
- * 
- * @typedef {DiContainerFactoryProperties} DiContainerFactoryParams
+ * @property {<T extends Dependencies<Record<PropertyKey, Function>>>(dependencies: T) => IDiContainer<T>} create
  */
 
 /**
- * @typedef {import('./DiContainer.js').DiContainerConstructable} DiContainerConstructable
- */
-
-/**
- * @template T
- * 
- * @typedef {import('./IDiContainer.js').IDiContainer<T>} IDiContainer
+ * @import {
+ *  IDiContainer,
+ *  Dependencies
+ * } from './IDiContainer.js'
  */

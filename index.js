@@ -1,29 +1,39 @@
 import DiContainer from './src/DiContainer.js';
 import Factory from './src/Factory.js';
 
+/**
+ * @import {
+ *  IDiContainer,
+ *  Dependencies,
+ *  Dependency
+ * } from './src/IDiContainer.js'
+ * 
+ * @import { IDiContainerFactory } from './src/IFactory.js'
+ */
+
 export {
   DiContainer,
   Factory
 };
 
 /**
- * @template T
+ * @template {Record<PropertyKey, Function>} T
  * 
- * @typedef {import('./src/IDiContainer.js').IDiContainer<T>} IDiContainer
+ * @typedef {IDiContainer<T>} IDiContainer
  */
 
 /**
- * @template T
+ * @template {Record<PropertyKey, Function>} T
  * 
- * @typedef {import('./src/IDiContainer.js').Dependencies<T>} Dependencies
+ * @typedef {Dependencies<T>} Dependencies
  */
 
 /**
- * @template T
+ * @template {Function} T
  * 
- * @typedef {import('./src/IDiContainer.js').Dependency<T>} Dependency
+ * @typedef {Dependency<T>} Dependency
  */
 
 /**
- * @typedef {import('./src/IFactory.js').IDiContainerFactory} IDiContainerFactory
+ * @typedef {IDiContainerFactory} IDiContainerFactory
  */

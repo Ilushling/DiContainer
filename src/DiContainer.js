@@ -1,51 +1,61 @@
 /**
- * @template T
- * @typedef {T extends (arg: infer R) => any ? R : any} GetArgType
- */
-/**
- * @template T
- * @typedef {T extends (...args: any) => infer R ? R : any} GetReturnType
- */
-
-/**
- * @template F
- * @typedef {(container: GetArgType<F>) => GetReturnType<F>} Dependency
- */
-/**
- * @template T
- * @typedef {{ [P in keyof T]: Dependency<T[P]> }} Dependencies
+ * @import {
+ *  IDiContainer,
+ *  Dependency,
+ *  Dependencies,
+ *  Instance,
+ *  Instances,
+ *  GetArgType
+ * } from './IDiContainer.js'
  */
 
 /**
- * @template T
- * @typedef {GetReturnType<T>} Instance
- */
-/**
- * @template T
- * @typedef {{ [P in keyof T]: Instance<T[P]> }} Instances
+ * @typedef {new <T extends Dependencies<Record<PropertyKey, Function>>>(
+ *  params: T
+ * ) => DiContainer<T>
+ * } DiContainerConstructable
  */
 
 /**
- * @typedef {new <T>(params: T) => DiContainer<T>} DiContainerConstructable
- */
-
-/**
- * @template T
+ * @template {Record<PropertyKey, Function>} T
  * 
- * @implements {IDiContainer}
+ * @implements {IDiContainer<T>}
  */
 export default class DiContainer {
   /**
-   * @typedef {import('./IDiContainer.js').IDiContainer<T>} IDiContainer
+   * @template {Record<PropertyKey, Function>} T
+   * 
+   * @typedef {DiContainerDependencies<T>['dependencies']} DiContainerParams
    */
 
-  /** @type {Dependencies<T>} */
+  /**
+   * @template {Record<PropertyKey, Function>} T
+   * 
+   * @typedef {DiContainerDependencies<T>
+   *  & DiContainerStates<T>} DiContainerProperties
+   */
+
+  /**
+   * @template {Record<PropertyKey, Function>} T
+   * 
+   * @typedef {object} DiContainerDependencies
+   * @property {Dependencies<T>} dependencies
+   */
+
+  /**
+   * @template {Record<PropertyKey, Function>} T
+   * 
+   * @typedef {object} DiContainerStates
+   * @property {Instances<T>} instances
+   */
+
+  /** @type {DiContainerProperties<T>['dependencies']} */
   #dependencies;
 
-  /** @type {Instances<T>} */
+  /** @type {DiContainerProperties<T>['instances']} */
   #instances;
 
-  /** @param {Dependencies<T>} dependencies */
+  /** @param {DiContainerParams<T>} dependencies */
   constructor(dependencies) {
     this.#dependencies = dependencies;
 
@@ -58,13 +68,13 @@ export default class DiContainer {
     return this.#dependencies;
   }
 
-  /** @type {IDiContainer['has']} */
+  /** @type {IDiContainer<T>['has']} */
   has(key) {
     //@ts-ignore
     return key in this.#dependencies;
   }
 
-  /** @type {IDiContainer['get']} */
+  /** @type {IDiContainer<T>['get']} */
   get(key) {
     const dependencies = this.#dependencies;
     if (!(key in dependencies)) {
@@ -84,7 +94,6 @@ export default class DiContainer {
     }
 
     let dependency = dependencies[key];
-
     if (typeof dependency !== 'function') {
       throw Object.assign(new Error(
         `${key.toString()} must be a function`,
@@ -99,12 +108,12 @@ export default class DiContainer {
     }
 
     /**
-     * @typedef {T[typeof key]} D 
+     * @typedef {typeof key} K
+     * @typedef {T[K]} D
      */
 
     const container = /** @type {GetArgType<D>} */ (this);
 
-    /** @type {(container: GetArgType<D>) => Instances<T>[typeof key]} */
     dependency = dependency.bind(dependencies);
 
     const instances = this.#instances;

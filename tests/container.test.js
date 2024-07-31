@@ -5,32 +5,39 @@ import DiContainer from '../src/DiContainer.js';
 import moduleDependencies from './module.js';
 
 /**
- * @template T
- * @typedef {import('../src/IDiContainer.js').IDiContainer<T>} IDiContainer
+ * @import {
+ *  IDiContainer,
+ *  Dependency,
+ *  Dependencies
+ * } from '../src/IDiContainer.js'
+ * 
+ * @import { ModuleDependencies } from './module.js'
  */
 
 /**
- * @template T
- * @typedef {import('../src/DiContainer.js').Dependencies<T>} Dependencies
+ * @template {unknown} T
+ * 
+ * @typedef {Dependency<(container: Container) => T>} ContainerDependency
  */
 
 /**
- * @template T
- * @typedef {(container: Container) => T} Dependency
- */
-
-/**
- * @typedef {import('./module.js').ModuleDependencies} ModuleDependencies
+ * @template {Record<PropertyKey, Function>} T
+ * 
+ * @typedef {Dependencies<T>} Dependencies
  */
 
 /**
  * @typedef {ModuleDependencies
- * & Dependencies<{
- *   a: Dependency<number>;
- *   b: Dependency<number>;
- *   c: Dependency<number>;
- * }>} ContainerDependencies
+ *  & Dependencies<{
+ *    a: ContainerDependency<number>;
+ *    b: ContainerDependency<number>;
+ *    c: ContainerDependency<number>;
+ *  }>
+ * } ContainerDependencies
  * @typedef {IDiContainer<ContainerDependencies>} Container
+ */
+
+/**
  * @type {ContainerDependencies}
  */
 const dependencies = {

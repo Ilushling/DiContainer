@@ -1,21 +1,17 @@
 /**
- * @typedef {import('./container.test.js').Container} Container
- */
-
-/**
- * @template T
- * @typedef {import('./container.test.js').Dependencies<T>} Dependencies
- */
-
-/**
- * @template T
- * @typedef {import('./container.test.js').Dependency<T>} Dependency
+ * @import {
+ *  ContainerDependency,
+ *  Dependencies
+ * } from './container.test.js'
  */
 
 /**
  * @typedef {Dependencies<{
- *   linked: Dependency<number>
+ *  linked: ContainerDependency<number>;
  * }>} ModuleDependencies
+ */
+
+/**
  * @type {ModuleDependencies}
  */
 export default {

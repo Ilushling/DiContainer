@@ -1,12 +1,19 @@
+/**
+ * @import { IDiContainerFactory } from './IFactory.js'
+ * 
+ * @import { DiContainerConstructable } from './DiContainer.js'
+ */
+
+/**
+ * @implements {IDiContainerFactory}
+ */
 export default class DiContainerFactory {
   /**
-   * @typedef {import('./IFactory.js').IDiContainerFactory} IDiContainerFactory
-   */
-
-  /**
-   * @typedef {import('./IFactory.js').DiContainerFactoryProperties} DiContainerFactoryProperties
+   * @typedef {DiContainerFactoryDependencies} DiContainerFactoryParams
+   * @typedef {DiContainerFactoryDependencies} DiContainerFactoryProperties
    * 
-   * @typedef {import('./IFactory.js').DiContainerFactoryParams} DiContainerFactoryParams
+   * @typedef {object} DiContainerFactoryDependencies
+   * @property {DiContainerConstructable} DiContainer
    */
 
   /** @type {DiContainerFactoryProperties['DiContainer']} */

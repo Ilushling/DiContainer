@@ -1,5 +1,5 @@
 /**
- * @template T
+ * @template {Record<PropertyKey, Function>} T
  * 
  * @typedef {object} IDiContainer
  * @property {() => Dependencies<T>} getDependencies
@@ -8,41 +8,37 @@
  */
 
 /**
- * @typedef {new <T>(params: T) => IDiContainer<T>} DiContainerConstructable
- */
-
-/**
- * @template F
+ * @template {Function} F
  * 
  * @typedef {(container: GetArgType<F>) => GetReturnType<F>} Dependency
  */
 
 /**
- * @template T
+ * @template {Record<PropertyKey, Function>} T
  * 
  * @typedef {{ [P in keyof T]: Dependency<T[P]> }} Dependencies
  */
 
 /**
- * @template T
+ * @template {Function} T
  * 
  * @typedef {GetReturnType<T>} Instance
  */
 
 /**
- * @template T
+ * @template {Record<PropertyKey, Function>} T
  * 
  * @typedef {{ [P in keyof T]: Instance<T[P]> }} Instances
  */
 
 /**
- * @template T
+ * @template {Function} T
  * 
- * @typedef {T extends (arg: infer R) => any ? R : any} GetArgType
+ * @typedef {T extends (arg: infer R) => unknown ? R : unknown} GetArgType
  */
 
 /**
- * @template T
+ * @template {Function} T
  * 
  * @typedef {T extends (...args: any) => infer R ? R : any} GetReturnType
  */
