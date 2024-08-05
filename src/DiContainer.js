@@ -78,14 +78,7 @@ export default class DiContainer {
     const dependencies = this.#dependencies;
     if (!(key in dependencies)) {
       throw Object.assign(
-        new Error(
-          `${key.toString()} dependency not found`,
-          {
-            cause: {
-              key
-            }
-          }
-        ),
+        new Error(`${key.toString()} dependency not found`),
         {
           name: 'DependencyNotFoundError'
         }
@@ -96,12 +89,12 @@ export default class DiContainer {
 
     const instances = this.#instances;
     if (!(key in instances)) {
-    /**
-     * @typedef {typeof key} K
-     * @typedef {T[K]} D
-     */
+      /**
+       * @typedef {typeof key} K
+       * @typedef {T[K]} D
+       */
 
-    const container = /** @type {GetArgType<D>} */ (this);
+      const container = /** @type {GetArgType<D>} */ (this);
 
       const instance = dependency(container);
 
