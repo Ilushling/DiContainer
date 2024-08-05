@@ -91,20 +91,10 @@ export default class DiContainer {
       );
     }
 
-    let dependency = dependencies[key];
-    if (typeof dependency !== 'function') {
-      throw Object.assign(new Error(
-        `${key.toString()} must be a function`,
-        {
-          cause: {
-            key
-          }
-        }
-      ), {
-        name: 'DependencyNotFunctionError'
-      });
-    }
+    const dependency = dependencies[key];
 
+    const instances = this.#instances;
+    if (!(key in instances)) {
     /**
      * @typedef {typeof key} K
      * @typedef {T[K]} D
@@ -112,13 +102,11 @@ export default class DiContainer {
 
     const container = /** @type {GetArgType<D>} */ (this);
 
-    dependency = dependency.bind(dependencies);
-
-    const instances = this.#instances;
-    if (!(key in instances)) {
       const instance = dependency(container);
 
       instances[key] = instance;
+
+      return instance;
     }
 
     return instances[key];
