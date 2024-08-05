@@ -68,8 +68,9 @@ export default class DiContainer {
 
   /** @type {IDiContainer<T>['has']} */
   has(key) {
-    //@ts-ignore
-    return key in this.#dependencies;
+    const dependencies = this.#dependencies;
+
+    return /** @type {key extends keyof Dependencies<T> ? true : false} */ (key in dependencies);
   }
 
   /** @type {IDiContainer<T>['get']} */
