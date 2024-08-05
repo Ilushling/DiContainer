@@ -1,9 +1,7 @@
 /**
  * @import {
  *  IDiContainer,
- *  Dependency,
  *  Dependencies,
- *  Instance,
  *  Instances,
  *  GetArgType
  * } from './IDiContainer.js'
